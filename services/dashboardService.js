@@ -3,11 +3,7 @@ import Finance from "../models/financeModel.js";
 export const getDashboardSummaryService = async (user) => {
   let matchStage = {};
 
-  // 🔥 RBAC
-  if (user.role !== "admin") {
-    matchStage.userId = user.id;
-  }
-
+  // Dashboard visible to all authenticated users
   const result = await Finance.aggregate([
     { $match: matchStage },
 
@@ -36,10 +32,7 @@ export const getDashboardSummaryService = async (user) => {
 export const getCategoryBreakdownService = async (user) => {
   let matchStage = {};
 
-  if (user.role !== "admin") {
-    matchStage.userId = user.id;
-  }
-
+  // Dashboard visible to all authenticated users
   const result = await Finance.aggregate([
     { $match: matchStage },
     {
@@ -55,10 +48,7 @@ export const getCategoryBreakdownService = async (user) => {
 export const getMonthlyTrendsService = async (user) => {
   let matchStage = {};
 
-  if (user.role !== "admin") {
-    matchStage.userId = user.id;
-  }
-
+  // Dashboard visible to all authenticated users
   const result = await Finance.aggregate([
     { $match: matchStage },
     {
@@ -78,10 +68,7 @@ export const getMonthlyTrendsService = async (user) => {
 export const getRecentActivityService = async (user) => {
   let filter = {};
 
-  if (user.role !== "admin") {
-    filter.userId = user.id;
-  }
-
+  // Dashboard visible to all authenticated users
   const records = await Finance.find(filter)
     .sort({ createdAt: -1 })
     .limit(5);

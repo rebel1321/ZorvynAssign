@@ -16,9 +16,9 @@ export const getFinanceService = async (query, user) => {
   let filter = {};
 
   // 🔥 RBAC logic
-  if (user.role !== "admin") {
-    filter.userId = user.id;
-  }
+  // Viewers cannot access this (handled at route level)
+  // Analysts and admins can see all records
+  // (No userId filter needed)
 
   // Filtering
   if (query.type) filter.type = query.type;
@@ -43,9 +43,9 @@ export const getSingleFinanceService = async (id, user) => {
   if (!record) throw new ApiError(404, "Record not found");
 
   // 🔥 RBAC check
-  if (user.role !== "admin" && record.userId.toString() !== user.id) {
-    throw new ApiError(403, "Unauthorized");
-  }
+  // Viewers cannot access (blocked at route level)
+  // Analysts and admins can view any record
+  // (No userId check needed)
 
   return record;
 };

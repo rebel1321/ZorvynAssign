@@ -92,7 +92,7 @@ router.post("/", authMiddleware, allowRoles("admin"), createFinance);
  *       200:
  *         description: List of finance records
  */
-router.get("/", authMiddleware, getFinance);
+router.get("/", authMiddleware, allowRoles("admin", "analyst"), getFinance);
 
 /**
  * @swagger
@@ -114,7 +114,7 @@ router.get("/", authMiddleware, getFinance);
  *       404:
  *         description: Record not found
  */
-router.get("/:id", authMiddleware, getSingleFinance);
+router.get("/:id", authMiddleware, allowRoles("admin", "analyst"), getSingleFinance);
 
 /**
  * @swagger
